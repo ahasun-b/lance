@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    
+    <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+    
+    
+    
+    <style>
+
+        /* Quicksand Font */
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .calculator{
+            width: 100%;
+            background: url(img/baground_image.png);
+            background-repeat: no-repeat;
+            background-size: auto 640px;
+            background-position-x: -1688px;
+            padding: 120px 0px;
+        }
+
+        h3.calculator-title{
+            color: #fff;
+            font-family: "Quicksand", Sans-serif;
+            font-size: 42px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .calculator p{
+            text-align: center;
+            color:#013c51;
+            font-family: "Quicksand", Sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin: 20px auto;
+            color: #fff;
+        }
+
+        /* Service Item */
+        .service_item{
+            width: 48%;
+            max-width: 48%;
+            height: auto;
+            padding: 46px 60px;
+            border-radius: 14px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            background-color: #fff;
+           
+        }
+
+        .service_item h4.service_title{
+            font-size: 28px;
+            float: left;
+            width: 100%;
+            text-align: left;
+        }
+
+        .service_item p{
+            color: #000;
+            margin-top: 20px;
+            text-align: left;
+            pointer-events: none;
+            font-size: 15px !important;
+            font-weight: 500 !important;
+        }
+
+        .service_item ul{
+            padding-left: 19px;
+        }
+
+        .service_item ul li{
+            text-align: left;
+        }
+
+
+        .service_item.active{
+            background-color: #013B51;
+            border: 1px solid #fff;
+        }
+
+        .service_item.active ul li,
+        .service_item.active h4,
+        .service_item.active p{
+            color: #fff;
+        }
+
+        /* Range Slider */
+        .calculator .irs-min,
+        .calculator .irs-max{
+            display: none;
+        }
+
+        .calculator .irs--round .irs-handle{
+            background-color: #013B51 !important;
+            margin-top: 2px;
+            border-color: #013B51 !important;
+            box-shadow: transparent !important
+        }
+        .calculator .irs--round .irs-line,
+        .calculator .irs--round .irs-bar--single{
+            height: 10px !important;
+        }
+
+        .calculator .irs--round .irs-bar--single{
+            background-color: #013B51;
+        }
+
+        .calculator .irs--round .irs-single{
+            background-color: #013B51 !important;
+            color: #fff !important;
+
+        }
+
+        .calculator .irs--round .irs-single:before{
+            border-top-color: #013B51 !important;
+        }
+
+        .calculator .service_document{
+            color: #013c51;
+            font-family: "Quicksand", Sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .calculator .service_document span{
+            color: #8400FF;
+        }
+
+        .calculator .currency_content{
+            margin: auto;
+            display: block;
+            width: auto;
+        }
+
+        .calculator .currency_content label{
+            font-size: 16px;
+            font-weight: 400px;
+            color:#7A7A7A;
+            text-align: center;
+            display: block;
+        }
+
+        .calculator .currency_content select{
+            border: 0px solid transparent;
+            font-weight: 500;
+            font-size: 16px;
+            color:#7A7A7A;
+        }
+
+        .calculator .currency_content select:focus{
+            border: 0px Solid transparent;
+            outline: 0;
+        }
+
+
+        /* pricing-container */
+        
+
+        .calculator .pricing-container {
+            border: 1px solid #d7d7d7;
+            border-radius: 6px;
+            width: 300px;
+            padding: 24px 20px;
+            display: block;
+            margin: 40px auto 0px;
+        }
+        .calculator .visiblefild, .pricing-container, 
+        .email-container, .email-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator #price,
+        .calculator #pricepm {
+            text-align: center;
+            opacity: 1;
+        }
+        .calculator #price {
+            max-width: 250px;
+            font-size: 36px;
+            font-weight: 500;
+            color: #333333;
+        }
+        .calculator #currency, 
+        .calculator #price, 
+        .calculator #pricepm {
+            margin: 0;
+            padding: 0;
+            max-width: max-content;
+            border: none;
+            background: transparent;
+            width: 100%;
+        }
+
+        .calculator .pricing-container input:focus{
+            border: 0px;
+            outline: 0;
+        }
+
+        .calculator #features{
+            display: none;
+        }
+
+
+    </style>
+
+</head>
+<body>
+    <div class="calculator">
+        <div class="container">
+            <h3 class="calculator-title">Simple, transparent pricing</h3>
+            <p class="calculator-sub-title">Select the size of your organization</p>
+    
+            <!-- Start:Range Slider  -->
+            <input type="text" class="js-range-slider" name="my_range" value="" id="slider"/>
+            <!-- End:Range Slider  -->
+
+            <p>Select your features</p>
+
+            <!-- Start:Service Items -->
+            <div class="d-flex justify-content-between service_items">
+                <!-- Start:Service Item -->
+                <button class="service_item option-button-wrapper active" id="personal-btn">
+                    <div class="service_title_section d-flex justify-content-between">
+                        <h4 class="service_title">Personal Boards</h4>
+                        <svg class="option-swoosh" version="1.0" xmlns="http://www.w3.org/2000/svg" width="33px" height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                            <circle class="option-swoosh-bg" cx="255" cy="255" r="250" fill="#ffffff"></circle>
+                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+                            <path class="option-swoosh-circle" fill="currentColor" d="M2305 5113 c-671 -72 -1279 -393 -1707 -903 -301 -358 -488 -764
+                            -571 -1240 -19 -109 -21 -162 -21 -410 0 -248 2 -301 21 -410 94 -540 320
+                            -987 693 -1374 383 -398 866 -650 1430 -749 109 -19 162 -21 410 -21 313 0
+                            407 10 653 73 882 228 1600 946 1828 1828 63 246 73 340 73 653 0 313 -10 407
+                            -73 653 -228 881 -946 1600 -1828 1828 -227 58 -334 71 -613 74 -140 2 -273 1
+                            -295 -2z m600 -443 c455 -79 841 -278 1164 -601 323 -323 521 -706 602 -1166
+                            33 -184 33 -502 0 -686 -81 -460 -279 -843 -602 -1166 -323 -323 -706 -521
+                            -1166 -602 -184 -33 -502 -33 -686 0 -460 81 -843 279 -1166 602 -323 323
+                            -521 706 -602 1166 -33 184 -33 502 0 686 81 460 279 843 602 1166 362 362
+                            806 570 1334 625 100 10 404 -3 520 -24z"></path>
+                            
+                            </g>
+                        </svg>
+    
+                        
+                    </div>
+                    <p>Personal Boards are unique personal workspaces, offering a high degree of personalization and seamless integration of
+                        various applications.</p>
+                    <ul>
+                        <li><b>Personalization & Control:</b> Users can tailor boards to suit their needs.</li>
+                        <li><b>Integrated Access:</b> Applications from Microsoft 365 and beyond are combined in one place.</li>
+                        <li><b>Admin Control:</b> Admins can limit customization to balance personal and organizational needs</li>
+                    </ul>
+                </button>
+                <!-- End:Service Item -->
+    
+                <!-- Start:Service Item -->
+                <button class="service_item option-button-wrapper" id="shared-btn">
+                    <div class="service_title_section d-flex justify-content-between">
+                        <h4 class="service_title">Shared Boards</h4>
+                        <svg class="option-swoosh" version="1.0" xmlns="http://www.w3.org/2000/svg" width="33px" height="30px" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                            <circle class="option-swoosh-bg" cx="255" cy="255" r="250" fill="#ffffff"></circle>
+                            <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+                            <path class="option-swoosh-circle" fill="currentColor" d="M2305 5113 c-671 -72 -1279 -393 -1707 -903 -301 -358 -488 -764
+                            -571 -1240 -19 -109 -21 -162 -21 -410 0 -248 2 -301 21 -410 94 -540 320
+                            -987 693 -1374 383 -398 866 -650 1430 -749 109 -19 162 -21 410 -21 313 0
+                            407 10 653 73 882 228 1600 946 1828 1828 63 246 73 340 73 653 0 313 -10 407
+                            -73 653 -228 881 -946 1600 -1828 1828 -227 58 -334 71 -613 74 -140 2 -273 1
+                            -295 -2z m600 -443 c455 -79 841 -278 1164 -601 323 -323 521 -706 602 -1166
+                            33 -184 33 -502 0 -686 -81 -460 -279 -843 -602 -1166 -323 -323 -706 -521
+                            -1166 -602 -184 -33 -502 -33 -686 0 -460 81 -843 279 -1166 602 -323 323
+                            -521 706 -602 1166 -33 184 -33 502 0 686 81 460 279 843 602 1166 362 362
+                            806 570 1334 625 100 10 404 -3 520 -24z"></path>
+                            
+                            </g>
+                        </svg>
+    
+                        
+                    </div>
+                    <p>Shared Boards are designed as shared dashboards, where resources, tools, and information can be accessible to all relevant users.</p>
+                    <ul>
+                        <li><b>Consistent Information Sharing:</b>   Shared Boards serve as a central hub for up-to-date information</li>
+                        <li><b>Hub function:</b>  Serves as a go-to spot for all team, departmental and organizational updates, keeping everyone in the loop.</li>
+                        <li><b>Control & Management:</b>  Shared Boards offer administrators control over who can create and manage these boards across the organization</li>
+                    </ul>
+                </button>
+                <!-- End:Service Item -->
+            </div>
+            <!-- End:Service Items -->
+
+            <select id="features">
+                <option value="Personal Boards">Personal Boards</option>
+                <option value="Team Boards">Team Boards</option>
+            </select>
+
+
+            <p class="service_document">Understanding the differences: <span>Personal vs Shared Boards</span></p>
+            
+            <div class="currency_content">
+                <label class="currency-label" id="currency-label">
+                    <span>Your yearly costs in:&nbsp;</span>
+                        <span class="wpcf7-form-control-wrap" data-name="yearly_costs">
+                            <select class="wpcf7-form-control wpcf7-select currency" id="currency" aria-invalid="false" name="yearly_costs">
+                                <option value="EUR">EUR</option>
+                                <option value="USD">USD</option>
+                                <option value="CAD">CAD</option>
+                                <option value="AUD">AUD</option>
+                                <option value="CHF">CHF</option>
+                                <option value="GBP">GBP</option>
+                            </select>
+                        </span>
+                    <span>  
+                </label>
+            </div>
+
+
+
+            <!-- Start:pricing-container -->
+            <div class="pricing-container">
+                <input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required price" id="price" aria-required="true" aria-invalid="false" value="€ 8750.00" type="text" name="price" readonly="true">
+                <div class="d-flex">
+                    <input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required pricepm" id="pricepm" aria-required="true" aria-invalid="false" value="€ 0.73" type="text" name="per_user_mounh"  readonly="true">
+                    <p style="text-align: left;color: #013c51 !important;font-family: Quicksand;font-size: 17px;font-weight: 400;margin: 20px auto;width: 380px;">per user/month</p>
+                </div>
+                
+            </div>
+            <!-- End:pricing-container -->
+        </div>
+    </div>
+    
+
+    
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+
+    <script>
+        $( document ).ready(function() {
+
+            $("#personal-btn").click();
+    
+
+            var $rangSlider = $("#slider");
+            $rangSlider.ionRangeSlider({
+                min: 10,
+                max: 10000,
+                from: 1000,
+                postfix: ' Users',
+                skin: "round"
+            });
+
+            $rangSlider.on("change", function () {
+                var $inp = $(this);
+                var rangeValue = $inp.prop("value"); // reading input value
+                updateData();
+            });
+
+            // Initially update data
+            updateData();
+        });
+
+        // Your JavaScript code goes here
+
+        const PRICE_INPUT = document.getElementById('price');
+        const PRICEPM_INPUT = document.getElementById('pricepm');
+        const USERS_INPUT = document.getElementById('slider');
+        const CURRENCY_SELECT = document.getElementById('currency');
+        const CURRENCY_LABEL = document.getElementById('currency-label');
+       
+        const RESPONSE_OUTPUT = document.querySelector('.wpcf7-response-output');
+
+
+        const OPTION_BUTTONS = Array.from(document.querySelectorAll('.service_item.option-button-wrapper'));
+        const OPTION_SVG_CIRCLE = document.querySelector('.option-swoosh-circle');
+        const OPTION_SVG_BG = document.querySelector('.option-swoosh-bg');
+
+
+        PRICE_INPUT.setAttribute('readonly', true);
+        PRICEPM_INPUT.setAttribute('readonly', true);
+        USERS_INPUT.setAttribute('readonly', true);
+
+        var currency = CURRENCY_SELECT.value;
+        var usersAmount = 550; // Default value
+        var calculatedPrice = 0;
+        var calculatedUserPerMonthPrice = 0.00;
+
+        const FEATURES = ['single', 'all'];
+        const EXCHANGE_RATES = {
+            'EUR': 1.00,
+            'USD': 1.20,
+            'CAD': 1.60,
+            'AUD': 1.60,
+            'CHF': 1.20,
+            'GBP': 0.90
+        }
+        const CURRENCY_SIGNS = {
+            'EUR': '€',
+            'USD': '$',
+            'CAD': 'CA$',
+            'AUD': 'AU$',
+            'CHF': 'fr.',
+            'GBP': '£'
+        }
+
+
+        const BASE_PRICING = {
+            base: [3750, 5750, 10750],
+            basePerUser: [5.00, 3.00, 2.00]
+        };
+        const OPSLAG_PERCENTAGE = 0.75;
+        
+        let feature; // To store the selected feature
+
+        OPTION_BUTTONS.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectBoard(btn.id, event.target);
+                updateData();
+                console.log('test 2')
+            });
+        });
+
+        function selectBoard(optionId, target) {
+            if(target.classList.contains('active') || target.parentNode.classList.contains('active')) {
+                document.getElementById(optionId).classList.remove('active');
+
+                let activeButton = document.querySelector('.option-button-wrapper.active');
+                feature = activeButton ? FEATURES[0] : undefined;
+
+                return;
+            }
+
+            document.getElementById(optionId).classList.add('active');
+
+            let activeButtons = Array.from(document.querySelectorAll('.option-button-wrapper.active'));
+            if(activeButtons.length > 1) {
+                feature = FEATURES[1];
+                return;
+            }
+
+            feature = FEATURES[0];
+        }
+    
+        CURRENCY_SELECT.addEventListener('change', () => {
+            updateData();
+        });
+        
+        USERS_INPUT.addEventListener('input', () => {
+            updateData();
+        });
+        
+        function selectBoard(optionId, target) {
+            if (target.classList.contains('active') || target.parentNode.classList.contains('active')) {
+                target.classList.remove('active');
+            } else {
+                target.classList.add('active');
+            }
+        }
+
+
+        CURRENCY_SELECT.onchange = function () {
+            currency = CURRENCY_SELECT.value;
+            updateData();
+        }
+
+        USERS_INPUT.onchange = function () {
+            usersAmount = USERS_INPUT.value;
+            updateData();
+        }
+
+      
+
+        updateData();
+
+        function updateData() {
+            var currency = $("#currency").val();
+            var usersAmount = $("#slider").val();
+
+            console.log('usersAmount '+usersAmount)
+
+
+            var pricing = { // Initialize pricing
+                fullPrice: 0,
+                userPerMonthPrice: 0
+            };
+
+            if (feature === FEATURES[0]) {
+                pricing = calculatePersonalPrice(usersAmount, currency);
+            }
+            if (feature === FEATURES[1]) {
+                pricing = calculateTeamPrice(usersAmount, currency);
+            }
+
+            var calculatedPrice = pricing.fullPrice;
+            var calculatedUserPerMonthPrice = pricing.userPerMonthPrice;
+
+            if (feature === undefined) {
+                calculatedPrice = 0;
+                calculatedUserPerMonthPrice = 0;
+            }
+
+            var formattedPrice = `${CURRENCY_SIGNS[currency]} ${calculatedPrice.toFixed(2)}`;
+            var formattedUserPerMonthPrice = `${CURRENCY_SIGNS[currency]} ${calculatedUserPerMonthPrice.toFixed(2)}`;
+
+            $("#price").val(formattedPrice);
+            $("#pricepm").val(formattedUserPerMonthPrice);
+        }
+
+        
+        
+        OPTION_BUTTONS.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Toggle the active class for the clicked button
+                btn.classList.toggle('active');
+
+                // Check how many buttons are active
+                const activeButtons = Array.from(document.querySelectorAll('.service_item.option-button-wrapper.active'));
+
+            if (activeButtons.length > 1) {
+                OPTION_SVG_CIRCLE.style.fill = 'transparent'; // Update SVG color for multiple selections
+                OPTION_SVG_BG.style.fill = 'currentColor';
+            } else if (activeButtons.length === 1) {
+                OPTION_SVG_CIRCLE.style.fill = 'currentColor'; // Update SVG color for single selection
+                OPTION_SVG_BG.style.fill = 'transparent';
+            } else {
+                OPTION_SVG_CIRCLE.style.fill = 'transparent'; // No active buttons, reset SVG
+                OPTION_SVG_BG.style.fill = 'transparent';
+            }
+                // Update the feature based on active buttons
+                if (activeButtons.length > 1) {
+                    feature = FEATURES[1]; // Set feature to 'all' for multiple selections
+                } else if (activeButtons.length === 1) {
+                    feature = FEATURES[0]; // Set feature to 'single' for single selection
+                } else {
+                    feature = undefined; // No active buttons, feature is undefined
+                }
+
+                // Update the data when buttons are clicked
+                updateData();
+            });
+        });
+
+        // Main Calculation
+        function calculatePersonalPrice(usersAmount, currency) {
+            var pricing = getBasePrices(usersAmount);
+        
+            return {
+                fullPrice: (pricing.basePerUser * usersAmount + pricing.base) * EXCHANGE_RATES[currency],
+                userPerMonthPrice: ((pricing.basePerUser * usersAmount + pricing.base) / usersAmount) / 12 * EXCHANGE_RATES[currency],
+            }
+        }
+
+        function calculateTeamPrice(usersAmount, currency) {
+            var pricing = getBasePrices(usersAmount);
+            var teamPrice = pricing.base * OPSLAG_PERCENTAGE;
+            var teamPerUserPrice = pricing.basePerUser * OPSLAG_PERCENTAGE;
+            
+            return {
+                fullPrice: ((pricing.base + teamPrice) + (pricing.basePerUser + teamPerUserPrice) * usersAmount) * EXCHANGE_RATES[currency],
+                userPerMonthPrice: (((pricing.base + teamPrice) + (pricing.basePerUser + teamPerUserPrice) * usersAmount) / usersAmount) / 12 * EXCHANGE_RATES[currency],
+            }
+        }
+
+        function getBasePrices(usersAmount) {
+            var basePrice = 0;
+            var basePricePerUser = 0;
+            
+            if (usersAmount <= 1000) {
+                basePrice = BASE_PRICING.base[0];
+                basePricePerUser = BASE_PRICING.basePerUser[0];
+            } else if (usersAmount > 1000 && usersAmount <= 5000) {
+                basePrice = BASE_PRICING.base[1];
+                basePricePerUser = BASE_PRICING.basePerUser[1];
+            } else {
+                basePrice = BASE_PRICING.base[2];
+                basePricePerUser = BASE_PRICING.basePerUser[2];
+            }
+            
+            return {
+                base: basePrice,
+                basePerUser: basePricePerUser
+            }
+        }
+
+        function updateData() {
+            var currency = CURRENCY_SELECT.value;
+            var usersAmount = parseInt(USERS_INPUT.value);
+            
+            var pricing;
+            if (feature === FEATURES[0]) {
+                pricing = calculatePersonalPrice(usersAmount, currency);
+            } else if (feature === FEATURES[1]) {
+                pricing = calculateTeamPrice(usersAmount, currency);
+            }
+            
+            if (!pricing) {
+                PRICE_INPUT.value = CURRENCY_SIGNS[currency]+' 0.00';
+                PRICEPM_INPUT.value = CURRENCY_SIGNS[currency]+' 0.00';
+                return;
+            }
+            
+            var formattedPrice = `${CURRENCY_SIGNS[currency]} ${pricing.fullPrice.toFixed(2)}`;
+            var formatedUserPerMonthPrice = `${CURRENCY_SIGNS[currency]} ${pricing.userPerMonthPrice.toFixed(2)}`;
+            
+            PRICE_INPUT.value = formattedPrice;
+            PRICEPM_INPUT.value = formatedUserPerMonthPrice;
+        }
+
+       
+    </script>
+
+</body>
+</html>
